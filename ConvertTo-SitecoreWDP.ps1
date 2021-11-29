@@ -4,7 +4,7 @@
 #####################################################
 <#PSScriptInfo
 
-.VERSION 0.1
+.VERSION 0.2
 
 .GUID 4979bafc-b791-42b6-98c1-dd4c8eb586d0
 
@@ -75,9 +75,8 @@ begin {
 	$PSCallingScript = if ($MyInvocation.PSCommandPath) { $MyInvocation.PSCommandPath | Split-Path -Parent } else { $null }
 	Write-Verbose "$PSScriptRoot\$PSScriptName $path called by:$PSCallingScript"
 
-	@('Get-ArchiveEntries','Remove-ArchiveEntries','Set-ArchiveEntries','Import-SitecoreAzureToolkit').foreach({
-		if (-not (Get-Command -Name $_)) {Install-Script -Name $_ -Confirm:$False -Force }
-	})
+	Install-Script -Name Install-Scripts -Confirm:$False -Force
+	Install-Scripts @('Get-ArchiveEntries','Remove-ArchiveEntries','Set-ArchiveEntries','Import-SitecoreAzureToolkit')
 
 	$paths = @()
 	if((Test-Path $path) -and ($path.IndexOf("*") -eq -1 -and $path.IndexOf("/") -eq -1 -and $path.IndexOf("\") -eq -1)) {
